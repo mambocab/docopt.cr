@@ -22,6 +22,13 @@ describe Docopt do
                   "\n"
       Docopt.docopt(docstring, argv: [] of String).should eq({"-b" => false})
     end
+
+    it "can take multiple option names" do
+      docstring = "Options: -a\n"\
+                  "         -z\n"\
+                  "\n"
+      Docopt.docopt(docstring, argv: [] of String).should eq({"-a" => false, "-z" => false})
+    end
   end
 end
 
