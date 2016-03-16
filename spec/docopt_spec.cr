@@ -27,15 +27,47 @@ end
 
 describe DocoptUtil::StringUtil do
   describe "#get_option_lines" do
-    pending "returns the empty string if there is no 'options:' section" do
-      DocoptUtil::StringUtil.get_option_lines("Usage: prog\n\n").should eq([] of String)
+    it "returns the empty string if there is no 'options:' section" do
+      DocoptUtil::StringUtil.get_option_lines("Usage: prog\n\n").should eq([] of Array(String))
     end
 
-    pending "finds the 'options:' section on simple 2-part docstring" do
-      docstring = "Usage: prog [options]\n"\
+    it "finds the 'options:' line in simple 2-part docstring" do
+      docstring = "Usage: prog [options]\nOptions: -b  All."
+      DocoptUtil::StringUtil.get_option_lines(docstring).should eq(
+        [["Options: -b  All."]]
+      )
+    end
+
+    it "finds the 'options:' line case-insensitively" do
+      ["OPTIONS:", "options:", "oPtIoNs:"].map do |docstring|
+        docstring += " -a  All."
+        DocoptUtil::StringUtil.get_option_lines(docstring).should eq([[docstring]])
+      end
+    end
+
+    it "finds multiple lines in multi-line 'options:' section" do
+      docstring = "Options: -a  All.\n"\
+                  "         -v  Verbose."
+      DocoptUtil::StringUtil.get_option_lines(docstring).should eq(
+        [["Options: -a  All.",
+          "         -v  Verbose."]]
+      )
+    end
+
+    it "skips section between multiple 'options:' lines" do
+      docstring = "Options: -a   All.\n"\
+                  "         -v   Verbose.\n"\
                   "\n"\
-                  "Options: -b  All.\n"\
-                  "\n"
+                  "Usage:\n"\
+                  "         lol nobody cares about usage\n"\
+                  "Options: -b   Boy, oh boy.\n"\
+                  "         -vv  Very verbose.\n"
+      DocoptUtil::StringUtil.get_option_lines(docstring).should eq(
+        [["Options: -a   All.",
+          "         -v   Verbose."],
+         ["Options: -b   Boy, oh boy.",
+          "         -vv  Very verbose."]]
+      )
     end
   end
 end

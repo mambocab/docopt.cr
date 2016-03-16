@@ -1,3 +1,6 @@
+CASE_INSENSITIVE_STARTS_WITH_OPTIONS_COLON_REGEX = /options\:/i
+STARTS_WITH_SPACE_OR_TAB_REGEX = /^[ \t]/
+
 module Docopt
   def self.docopt(doc, argv = ARGV)
     if doc.includes? "Options:"
@@ -9,10 +12,20 @@ module Docopt
 end
 
 module DocoptUtil
+  # Utilities for extracting data structures from strings
+  module ParseUtil
+    def self.parse_option_line(line)
+    end
+  end
   # Utilities for manipulating strings
   module StringUtil
     def self.get_option_lines(s)
       split = s.split('\n').reject { |x| x == "" }
+      ArrayUtil.take_chunks_starting_with_selected(split) do |line|
+        STARTS_WITH_SPACE_OR_TAB_REGEX.match(line) == nil
+      end.select do |section_chunk|
+        CASE_INSENSITIVE_STARTS_WITH_OPTIONS_COLON_REGEX.match(section_chunk.first)
+      end
     end
   end
 
