@@ -29,6 +29,7 @@ module DocoptUtil
     end
   end
 
+  # Utilities for manipulating arrays and other {Iter,Enumer}ables
   module ArrayUtil
     # Given an Iterable or Enumerable xs, return its elements in the same order
     # but chunked into arrays that start with an element e for which func(e)
