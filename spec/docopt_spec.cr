@@ -43,17 +43,17 @@ end
 describe DocoptUtil::ArrayUtil do
   describe "#take_chunks_starting_with_selected" do
     it "returns the empty array on the empty array" do
-      (DocoptUtil::ArrayUtil.take_chunks_starting_with_selected([] of String) { |x| true })
+      DocoptUtil::ArrayUtil.take_chunks_starting_with_selected([] of String) { |x| true }
         .should eq([] of Array(String))
     end
 
     it "skips all elements if func(e) is always false" do
-      (DocoptUtil::ArrayUtil.take_chunks_starting_with_selected([1, 1, 1, 1, 1]) { |x| false })
+      DocoptUtil::ArrayUtil.take_chunks_starting_with_selected([1, 1, 1, 1, 1]) { |x| false }
         .should eq([] of Array(Int32))
     end
 
     it "skips initial elements if func(e) starts false" do
-      (DocoptUtil::ArrayUtil.take_chunks_starting_with_selected([10, 11]) { |x| x == 11 })
+      DocoptUtil::ArrayUtil.take_chunks_starting_with_selected([10, 11]) { |x| x == 11 }
         .should eq([[11]])
     end
 
