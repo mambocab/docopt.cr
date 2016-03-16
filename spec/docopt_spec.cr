@@ -148,8 +148,18 @@ describe DocoptUtil::ParseUtil do
       DocoptUtil::ParseUtil.parse_option_line("").should eq(nil)
     end
 
-    pending "returns the flag specified on the line" do
+    it "returns the flag specified on the line" do
       DocoptUtil::ParseUtil.parse_option_line("-a").should eq("-a")
+      DocoptUtil::ParseUtil.parse_option_line("-v").should eq("-v")
+    end
+
+    it "treats text after 2 spaces as a comment" do
+      DocoptUtil::ParseUtil.parse_option_line("--verbose  This is a comment").should eq("--verbose")
+    end
+
+
+    it "ignores leading space" do
+      DocoptUtil::ParseUtil.parse_option_line("         --verbose  This is a comment").should eq("--verbose")
     end
   end
 end

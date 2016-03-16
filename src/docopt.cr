@@ -15,6 +15,8 @@ module DocoptUtil
   # Utilities for extracting data structures from strings
   module ParseUtil
     def self.parse_option_line(line)
+      stripped = line.strip
+      stripped == "" ? nil : stripped.split("  ").first
     end
   end
   # Utilities for manipulating strings
