@@ -29,6 +29,11 @@ describe Docopt do
                   "\n"
       Docopt.docopt(docstring, argv: [] of String).should eq({"-a" => false, "-z" => false})
     end
+
+    it "detects the presence of specified options in argv" do
+      docstring = "Options: -a\n"
+      Docopt.docopt(docstring, argv: ["-a"]).should eq({"-a" => true})
+    end
   end
 end
 

@@ -5,7 +5,7 @@ module Docopt
   def self.docopt(doc, argv = ARGV)
     option_lines = DocoptUtil::StringUtil.get_option_lines(doc).flatten
     option_names = DocoptUtil::ParseUtil.get_options_from_option_lines option_lines
-    Hash.zip option_names, [false].cycle(option_names.size).to_a
+    Hash.zip option_names, option_names.map { |name| argv.includes? name }
   end
 end
 
