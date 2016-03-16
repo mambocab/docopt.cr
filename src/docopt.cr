@@ -3,11 +3,10 @@ STARTS_WITH_SPACE_OR_TAB_REGEX = /^[ \t]/
 
 module Docopt
   def self.docopt(doc, argv = ARGV)
-    if doc.includes? "Options:"
-      {"-a" => false}
-    else
-      {} of String => String
-    end
+    option_lines = DocoptUtil::StringUtil.get_option_lines(doc).flatten
+    #  remove "option:" prefix and get the rest
+    parsed = option_lines.map { |line| DocoptUtil::ParseUtil.parse_option_line(line.split(':', 2).last) }
+    Hash.zip parsed, [false].cycle(option_lines.size).to_a
   end
 end
 

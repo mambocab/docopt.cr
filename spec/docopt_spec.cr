@@ -15,7 +15,7 @@ describe Docopt do
       Docopt.docopt(docstring, argv: [] of String).should eq({"-a" => false})
     end
 
-    pending "parses arbitrary option names" do
+    it "parses arbitrary option names" do
       docstring = "Usage: prog [options]\n"\
                   "\n"\
                   "Options: -b  All.\n"\
