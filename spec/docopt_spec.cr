@@ -78,6 +78,19 @@ describe DocoptUtil::ArrayUtil do
         ]
       )
     end
+
+    it "allows the final chunk to be a single element" do
+      DocoptUtil::ArrayUtil.take_chunks_starting_with_selected(
+        [1, 2, 3, 1, 2, 10, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7, 1, 1]
+      ) { |x| x == 1 }.should eq(
+        [[1, 2, 3],
+         [1, 2, 10],
+         [1], [1], [1],
+         [1, 2, 3, 4, 5, 6, 7],
+         [1], [1]
+        ]
+      )
+    end
   end
 
   describe "#indices_where" do
