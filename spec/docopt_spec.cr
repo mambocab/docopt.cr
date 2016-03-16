@@ -157,7 +157,6 @@ describe DocoptUtil::ParseUtil do
       DocoptUtil::ParseUtil.parse_option_line("--verbose  This is a comment").should eq("--verbose")
     end
 
-
     it "ignores leading space" do
       DocoptUtil::ParseUtil.parse_option_line("         --verbose  This is a comment").should eq("--verbose")
     end

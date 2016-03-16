@@ -18,6 +18,7 @@ module DocoptUtil
       stripped == "" ? nil : stripped.split("  ").first
     end
   end
+
   # Utilities for manipulating strings
   module StringUtil
     def self.get_option_lines(s)
