@@ -24,12 +24,14 @@ module DocoptUtil
     #
     #     ary = [0, 1, 2, 3, 1, 4, 5, 1]
     #     take_chunks_starting_with_selected(ary, { |x| x == 1 }) #=> [[1, 2, 3], [1, 4, 5], [1]]
-    def self.take_chunks_starting_with_selected(xs :(Iterable(T) | Enumerable(T)), &block : T -> _)
+    def self.take_chunks_starting_with_selected(xs :(Iterable(T) | Enumerable(T)),
+                                                &block : T -> _)
       xs = xs.to_a
       self.indices_where(xs, &block).map { |i| [xs[i]] }
     end
 
-    def self.indices_where(xs : (Iterable(T) | Enumerable(T)), &block : T -> _)
+    def self.indices_where(xs : (Iterable(T) | Enumerable(T)),
+                           &block : T -> _)
       xs.each.with_index.select { |x| block.call(x.first) }.to_a.map { |x| x.last }
     end
   end
