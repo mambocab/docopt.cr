@@ -44,7 +44,7 @@ module DocoptUtil
     #
     #     ary = [0, 1, 2, 3, 1, 4, 5, 1]
     #     take_chunks_starting_with_selected(ary, { |x| x == 1 }) #=> [[1, 2, 3], [1, 4, 5], [1]]
-    def self.take_chunks_starting_with_selected(xs :(Iterable(T) | Enumerable(T)),
+    def self.take_chunks_starting_with_selected(xs : (Iterable(T) | Enumerable(T)),
                                                 &block : T -> _)
       xs = xs.to_a
       # generate pairs denoting the beginning and end of each range
