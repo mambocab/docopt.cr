@@ -57,6 +57,16 @@ describe DocoptUtil::ArrayUtil do
         .should eq([[11]])
     end
 
+    it "gives back [array] if the first element and no others pass conditional" do
+      DocoptUtil::ArrayUtil.take_chunks_starting_with_selected([10, 11, 12, 13]) { |x| x == 10 }
+        .should eq([[10, 11, 12, 13]])
+    end
+
+    it "gives back 2 arrays if 2 elements pass conditional" do
+      DocoptUtil::ArrayUtil.take_chunks_starting_with_selected([10, 11, 10, 12]) { |x| x == 10 }
+        .should eq([[10, 11], [10, 12]])
+    end
+
   end
 
   describe "#indices_where" do
