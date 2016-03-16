@@ -24,7 +24,8 @@ describe Docopt do
     end
 
     it "can take multiple option names" do
-      docstring = "Options: -a\n"\
+      docstring = "Usage: prog [options]\n"\
+                  "Options: -a\n"\
                   "         -z\n"\
                   "\n"
       Docopt.docopt(docstring, argv: [] of String).should eq({"-a" => false, "-z" => false})

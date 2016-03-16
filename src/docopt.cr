@@ -2,7 +2,10 @@ CASE_INSENSITIVE_STARTS_WITH_OPTIONS_COLON_REGEX = /options\:/i
 STARTS_WITH_SPACE_OR_TAB_REGEX = /^[ \t]/
 
 module Docopt
-  def self.docopt(doc, argv = ARGV)
+  def self.docopt(doc, argv = nil)
+    if argv == nil
+      argv = ARGV
+    end
     option_lines = DocoptUtil::StringUtil.get_option_lines(doc).flatten
     option_names = DocoptUtil::ParseUtil.get_options_from_option_lines option_lines
     Hash.zip option_names, option_names.map { |name| argv.includes? name }
