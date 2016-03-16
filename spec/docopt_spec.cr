@@ -7,6 +7,10 @@ describe Docopt do
       Docopt.docopt("Usage: prog\n\n", argv: [] of String).should eq({} of String => String)
     end
 
+    it "allows specifying arguments via usage:" do
+      Docopt.docopt("Usage: prog <arg>\n\n", argv: ["10"]).should eq({"<arg>" => "10"})
+    end
+
     it "parses option names" do
       docstring = "Usage: prog [options]\n"\
                   "\n"\
@@ -89,6 +93,22 @@ describe DocoptUtil::StringUtil do
           "         -v   Verbose."],
          ["Options: -b   Boy, oh boy.",
           "         -vv  Very verbose."]]
+      )
+    end
+  end
+
+  describe ".get_usage_lines" do
+    it "extracts section between multiple 'options:' lines" do
+      docstring = "Options: -a   All.\n"\
+                  "         -v   Verbose.\n"\
+                  "\n"\
+                  "Usage:\n"\
+                  "         lol nobody cares about usage\n"\
+                  "Options: -b   Boy, oh boy.\n"\
+                  "         -vv  Very verbose.\n"
+      DocoptUtil::StringUtil.get_usage_lines(docstring).should eq(
+        [["Usage:",
+          "         lol nobody cares about usage"]]
       )
     end
   end
@@ -196,6 +216,12 @@ describe DocoptUtil::ParseUtil do
     it "works when comments include ':'" do
       DocoptUtil::ParseUtil.get_options_from_option_lines(
         ["options:  --foo  Wizard: needs foo badly."]).should eq(["--foo"])
+    end
+  end
+
+  describe ".get_args_from_usage_lines" do
+    it "gets a single argument" do
+      DocoptUtil::ParseUtil.parse_usage_lines(["usage: <args>"]).should eq(["<args>"])
     end
   end
 end
