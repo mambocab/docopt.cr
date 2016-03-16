@@ -4,9 +4,8 @@ STARTS_WITH_SPACE_OR_TAB_REGEX = /^[ \t]/
 module Docopt
   def self.docopt(doc, argv = ARGV)
     option_lines = DocoptUtil::StringUtil.get_option_lines(doc).flatten
-    #  remove "option:" prefix and get the rest
-    parsed = option_lines.map { |line| DocoptUtil::ParseUtil.parse_option_line(line.split(':', 2).last) }
-    Hash.zip parsed, [false].cycle(option_lines.size).to_a
+    option_names = DocoptUtil::ParseUtil.get_options_from_option_lines option_lines
+    Hash.zip option_names, [false].cycle(option_names.size).to_a
   end
 end
 
@@ -16,6 +15,11 @@ module DocoptUtil
     def self.parse_option_line(line)
       stripped = line.strip
       stripped == "" ? nil : stripped.split("  ").first
+    end
+
+    def self.get_options_from_option_lines(lines)
+      #  remove "option:" prefix and get the rest
+      lines.map { |line| DocoptUtil::ParseUtil.parse_option_line(line.split(':', 2).last) }
     end
   end
 

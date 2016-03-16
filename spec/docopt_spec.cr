@@ -168,4 +168,19 @@ describe DocoptUtil::ParseUtil do
       DocoptUtil::ParseUtil.parse_option_line("         --verbose  This is a comment").should eq("--verbose")
     end
   end
+
+  describe "#get_options_from_option_lines" do
+    it "returns an empty hash on an empty array" do
+      DocoptUtil::ParseUtil.get_options_from_option_lines([] of String).should eq([] of String)
+    end
+
+    it "gets rid of leading 'options:' strings" do
+      DocoptUtil::ParseUtil.get_options_from_option_lines(["options:  --foo"]).should eq(["--foo"])
+    end
+
+    pending "works when comments include ':'" do
+      DocoptUtil::ParseUtil.get_options_from_option_lines(
+        ["options:  --foo  Wizard needs foo badly."]).should eq(["--foo"])
+    end
+  end
 end
