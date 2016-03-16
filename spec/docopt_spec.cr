@@ -67,6 +67,17 @@ describe DocoptUtil::ArrayUtil do
         .should eq([[10, 11], [10, 12]])
     end
 
+    it "both skips initial elements and makes multiple chunks" do
+      DocoptUtil::ArrayUtil.take_chunks_starting_with_selected(
+        [10, 10, 10, 10, 1, 2, 3, 1, 2, 10, 1, 1, 1, 1, 2, 3, 4, 5, 6, 7]
+      ) { |x| x == 1 }.should eq(
+        [[1, 2, 3],
+         [1, 2, 10],
+         [1], [1], [1],
+         [1, 2, 3, 4, 5, 6, 7]
+        ]
+      )
+    end
   end
 
   describe "#indices_where" do
