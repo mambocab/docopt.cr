@@ -32,7 +32,8 @@ describe Docopt do
     end
 
     it "detects the presence of specified options in argv" do
-      docstring = "Options: -a\n"
+      docstring = "Usage: prog [options]\n"\
+                  "Options: -a\n"
       Docopt.docopt(docstring, argv: ["-a"]).should eq({"-a" => true})
     end
   end
