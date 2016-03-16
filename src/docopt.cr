@@ -8,11 +8,20 @@ module Docopt
     end
     option_lines = DocoptUtil::StringUtil.get_option_lines(doc).flatten
     option_names = DocoptUtil::ParseUtil.get_options_from_option_lines option_lines
-    Hash.zip option_names, option_names.map { |name| argv.includes? name }
+    DocoptUtil::OptionUtil.options_and_arg_to_results option_names, argv
   end
 end
 
 module DocoptUtil
+
+  # Utilities for processing data structures representing options and
+  # arguments
+  module OptionUtil
+    def self.options_and_arg_to_results(options, argv)
+      Hash.zip options, options.map { |name| argv.includes? name }
+    end
+  end
+
   # Utilities for extracting data structures from strings
   module ParseUtil
     def self.parse_option_line(line)

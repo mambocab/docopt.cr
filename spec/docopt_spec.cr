@@ -38,6 +38,14 @@ describe Docopt do
   end
 end
 
+describe DocoptUtil::OptionUtil do
+  describe ".options_and_arg_to_results" do
+    describe "empty options returns empty result" do
+      DocoptUtil::OptionUtil.options_and_arg_to_results([] of String, [] of String).should eq({} of String => Bool)
+    end
+  end
+end
+
 describe DocoptUtil::StringUtil do
   describe ".get_option_lines" do
     it "returns the empty string if there is no 'options:' section" do
