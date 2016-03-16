@@ -2,7 +2,7 @@ require "./spec_helper"
 require "../src/docopt.cr"
 
 describe Docopt do
-  describe "#docopt" do
+  describe ".docopt" do
     it "works for the empty program" do
       Docopt.docopt("Usage: prog\n\n", argv: [] of String).should eq({} of String => String)
     end
@@ -38,7 +38,7 @@ describe Docopt do
 end
 
 describe DocoptUtil::StringUtil do
-  describe "#get_option_lines" do
+  describe ".get_option_lines" do
     it "returns the empty string if there is no 'options:' section" do
       DocoptUtil::StringUtil.get_option_lines("Usage: prog\n\n").should eq([] of Array(String))
     end
@@ -85,7 +85,7 @@ describe DocoptUtil::StringUtil do
 end
 
 describe DocoptUtil::ArrayUtil do
-  describe "#take_chunks_starting_with_selected" do
+  describe ".take_chunks_starting_with_selected" do
     it "returns the empty array on the empty array" do
       DocoptUtil::ArrayUtil.take_chunks_starting_with_selected([] of String) { |x| true }
         .should eq([] of Array(String))
@@ -137,7 +137,7 @@ describe DocoptUtil::ArrayUtil do
     end
   end
 
-  describe "#indices_where" do
+  describe ".indices_where" do
     it "returns the empty array given the empty array" do
       DocoptUtil::ArrayUtil.indices_where([] of String) { |x| true }
         .should eq([] of Int32)
@@ -155,7 +155,7 @@ describe DocoptUtil::ArrayUtil do
 end
 
 describe DocoptUtil::ParseUtil do
-  describe "#parse_option_line" do
+  describe ".parse_option_line" do
     it "returns nil on an empty string" do
       DocoptUtil::ParseUtil.parse_option_line("").should eq(nil)
     end
@@ -174,7 +174,7 @@ describe DocoptUtil::ParseUtil do
     end
   end
 
-  describe "#get_options_from_option_lines" do
+  describe ".get_options_from_option_lines" do
     it "returns an empty hash on an empty array" do
       DocoptUtil::ParseUtil.get_options_from_option_lines([] of String).should eq([] of String)
     end
