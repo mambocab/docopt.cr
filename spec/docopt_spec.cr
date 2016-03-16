@@ -141,3 +141,15 @@ describe DocoptUtil::ArrayUtil do
     end
   end
 end
+
+describe DocoptUtil::ParseUtil do
+  describe "#parse_option_line" do
+    it "returns nil on an empty string" do
+      DocoptUtil::ParseUtil.parse_option_line("").should eq(nil)
+    end
+
+    pending "returns the flag specified on the line" do
+      DocoptUtil::ParseUtil.parse_option_line("-a").should eq("-a")
+    end
+  end
+end
