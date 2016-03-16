@@ -14,7 +14,6 @@ module Docopt
 end
 
 module DocoptUtil
-
   # Utilities for processing data structures representing options and
   # arguments
   module OptionUtil
