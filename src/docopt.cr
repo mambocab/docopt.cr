@@ -50,8 +50,8 @@ module DocoptUtil
       # generate pairs denoting the beginning and end of each range
       # append 0 to make sure we include xs.last...
       range_pairs = (self.indices_where(xs, &block) + [0]).each.cons(2)
-        # then bring the last index of each range back 1 to avoid including
-        # the n+1th match in the nth chunk
+      # then bring the last index of each range back 1 to avoid including
+      # the n+1th match in the nth chunk
       range_pairs = range_pairs.map { |p| {p.first, p.last - 1} }
 
       # generate and return chunks
