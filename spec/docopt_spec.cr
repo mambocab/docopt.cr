@@ -178,9 +178,9 @@ describe DocoptUtil::ParseUtil do
       DocoptUtil::ParseUtil.get_options_from_option_lines(["options:  --foo"]).should eq(["--foo"])
     end
 
-    pending "works when comments include ':'" do
+    it "works when comments include ':'" do
       DocoptUtil::ParseUtil.get_options_from_option_lines(
-        ["options:  --foo  Wizard needs foo badly."]).should eq(["--foo"])
+        ["options:  --foo  Wizard: needs foo badly."]).should eq(["--foo"])
     end
   end
 end
