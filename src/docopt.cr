@@ -38,6 +38,11 @@ module DocoptUtil
       #  remove "option:" prefix and get the rest
       lines.map { |line| DocoptUtil::ParseUtil.tokenize_option_line(line.split(':', 2).last) }
     end
+
+    def self.parse_usage_lines(lines)
+      #  remove "usage:" prefix and get the rest
+      lines.map { |line| DocoptUtil::ParseUtil.tokenize_option_line(line.split(':', 2).last) }
+    end
   end
 
   # Utilities for manipulating strings
