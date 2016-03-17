@@ -221,7 +221,7 @@ describe DocoptUtil::ParseUtil do
 
   describe ".get_args_from_usage_lines" do
     it "gets a single argument" do
-      DocoptUtil::ParseUtil.parse_usage_lines(["usage: <args>"]).should eq(["<args>"])
+      DocoptUtil::ParseUtil.parse_usage_lines(["usage: prog <args>"]).should eq(["<args>"])
     end
   end
 end

@@ -14,7 +14,7 @@ module Docopt
     option_lines = DocoptUtil::StringUtil.get_option_lines(doc).flatten
     option_names = DocoptUtil::ParseUtil.parse_option_lines option_lines
 
-    DocoptUtil::OptionUtil.options_and_arg_to_results option_names, argv
+    DocoptUtil::OptionUtil.options_and_arg_to_results option_names + usage_names, argv
   end
 end
 
@@ -23,7 +23,13 @@ module DocoptUtil
   # arguments
   module OptionUtil
     def self.options_and_arg_to_results(options, argv)
-      Hash.zip options, options.map { |name| argv.includes? name }
+      Hash.zip options, options.map do |name|
+        if name.starts_with? '-'
+          argv.includes? name
+        else
+          argv[0]
+        end
+      end
     end
   end
 
@@ -40,8 +46,8 @@ module DocoptUtil
     end
 
     def self.parse_usage_lines(lines)
-      #  remove "usage:" prefix and get the rest
-      lines.map { |line| DocoptUtil::ParseUtil.tokenize_option_line(line.split(':', 2).last) }
+      #  remove "usage:" prefix and program name and get the rest
+      lines.map { |line| line.strip.split(':', 2).last.split }.flatten[1..-1].reject { |token| token == "[options]" }
     end
   end
 
