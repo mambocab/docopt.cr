@@ -185,36 +185,36 @@ describe DocoptUtil::ArrayUtil do
 end
 
 describe DocoptUtil::ParseUtil do
-  describe ".parse_option_line" do
+  describe ".tokenize_option_line" do
     it "returns nil on an empty string" do
-      DocoptUtil::ParseUtil.parse_option_line("").should eq(nil)
+      DocoptUtil::ParseUtil.tokenize_option_line("").should eq(nil)
     end
 
     it "returns the flag specified on the line" do
-      DocoptUtil::ParseUtil.parse_option_line("-a").should eq("-a")
-      DocoptUtil::ParseUtil.parse_option_line("-v").should eq("-v")
+      DocoptUtil::ParseUtil.tokenize_option_line("-a").should eq("-a")
+      DocoptUtil::ParseUtil.tokenize_option_line("-v").should eq("-v")
     end
 
     it "treats text after 2 spaces as a comment" do
-      DocoptUtil::ParseUtil.parse_option_line("--verbose  This is a comment").should eq("--verbose")
+      DocoptUtil::ParseUtil.tokenize_option_line("--verbose  This is a comment").should eq("--verbose")
     end
 
     it "ignores leading space" do
-      DocoptUtil::ParseUtil.parse_option_line("         --verbose  This is a comment").should eq("--verbose")
+      DocoptUtil::ParseUtil.tokenize_option_line("         --verbose  This is a comment").should eq("--verbose")
     end
   end
 
-  describe ".get_options_from_option_lines" do
+  describe ".parse_option_lines" do
     it "returns an empty hash on an empty array" do
-      DocoptUtil::ParseUtil.get_options_from_option_lines([] of String).should eq([] of String)
+      DocoptUtil::ParseUtil.parse_option_lines([] of String).should eq([] of String)
     end
 
     it "gets rid of leading 'options:' strings" do
-      DocoptUtil::ParseUtil.get_options_from_option_lines(["options:  --foo"]).should eq(["--foo"])
+      DocoptUtil::ParseUtil.parse_option_lines(["options:  --foo"]).should eq(["--foo"])
     end
 
     it "works when comments include ':'" do
-      DocoptUtil::ParseUtil.get_options_from_option_lines(
+      DocoptUtil::ParseUtil.parse_option_lines(
         ["options:  --foo  Wizard: needs foo badly."]).should eq(["--foo"])
     end
   end

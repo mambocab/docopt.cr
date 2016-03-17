@@ -7,8 +7,13 @@ module Docopt
     if argv == nil
       argv = ARGV
     end
+
+    usage_lines = DocoptUtil::StringUtil.get_usage_lines(doc).flatten
+    usage_names = DocoptUtil::ParseUtil.parse_usage_lines usage_lines
+
     option_lines = DocoptUtil::StringUtil.get_option_lines(doc).flatten
-    option_names = DocoptUtil::ParseUtil.get_options_from_option_lines option_lines
+    option_names = DocoptUtil::ParseUtil.parse_option_lines option_lines
+
     DocoptUtil::OptionUtil.options_and_arg_to_results option_names, argv
   end
 end
@@ -24,14 +29,15 @@ module DocoptUtil
 
   # Utilities for extracting data structures from strings
   module ParseUtil
-    def self.parse_option_line(line)
+    def self.tokenize_option_line(line)
       stripped = line.strip
       stripped == "" ? nil : stripped.split("  ").first
     end
 
-    def self.get_options_from_option_lines(lines)
+    def self.parse_option_lines(lines)
       #  remove "option:" prefix and get the rest
-      lines.map { |line| DocoptUtil::ParseUtil.parse_option_line(line.split(':', 2).last) }
+      lines.map { |line| DocoptUtil::ParseUtil.tokenize_option_line(line.split(':', 2).last) }
+    end
     end
   end
 
