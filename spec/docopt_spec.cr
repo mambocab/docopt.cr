@@ -186,8 +186,8 @@ end
 
 describe DocoptUtil::ParseUtil do
   describe ".tokenize_option_line" do
-    it "returns nil on an empty string" do
-      DocoptUtil::ParseUtil.tokenize_option_line("").should eq(nil)
+    it "returns empty string on an empty string" do
+      DocoptUtil::ParseUtil.tokenize_option_line("").should eq("")
     end
 
     it "returns the flag specified on the line" do

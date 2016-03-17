@@ -31,7 +31,7 @@ module DocoptUtil
   module ParseUtil
     def self.tokenize_option_line(line)
       stripped = line.strip
-      stripped == "" ? nil : stripped.split("  ").first
+      stripped == "" ? "" : stripped.split("  ").first
     end
 
     def self.parse_option_lines(lines)
