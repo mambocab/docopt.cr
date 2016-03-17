@@ -45,7 +45,7 @@ end
 
 describe DocoptUtil::OptionUtil do
   describe ".options_and_arg_to_results" do
-    describe "empty options returns empty result" do
+    it "returns an empty result given empty options" do
       DocoptUtil::OptionUtil.options_and_arg_to_results([] of String, [] of String).should eq({} of String => Bool)
     end
   end
