@@ -7,14 +7,29 @@ module DocParser
       raise Errors::InvalidDocstringException.new("Cannot use an empty docstring")
     end
 
-    usage_lines = Util::StringUtil.get_usage_lines(doc).flatten
-    usage_names = DocParser::Util.parse_usage_lines usage_lines
-    usage_args = usage_names.map { |name| Types::Argument.new name, nil }
+    sections = Util::StringUtil.get_sections doc
+    extracted = sections.map do |section|
+      first_line = section.first.downcase
+      if first_line.starts_with? "usage:"
+        DocParser::Util.parse_usage_lines section
+      elsif first_line.starts_with? "options:"
+        DocParser::Util.parse_option_lines section
+      else
+        raise Errors::InvalidDocstringException.new(
+          "Section must start with 'usage:' or 'options:', "\
+          "section was:\n#{section.join('\n')}")
+      end
+    end.flatten
 
-    option_lines = Util::StringUtil.get_option_lines(doc).flatten
-    option_names = DocParser::Util.parse_option_lines option_lines
-    option_options = option_names.map { |name| Types::Option.new name, nil }
-    usage_args + option_options
+    extracted.map do |word|
+      if word.starts_with? '<'
+        Types::Argument.new word, nil
+      elsif word.starts_with? '-'
+        Types::Option.new word, nil
+      else
+        raise Errors::InvalidDocstringException.new("Invalid input word #{word}")
+      end
+    end
   end
 
   module Errors

@@ -76,35 +76,22 @@ describe Util::OptionUtil do
 end
 
 describe Util::StringUtil do
-  describe ".get_option_lines" do
-    it "returns the empty string if there is no 'options:' section" do
-      Util::StringUtil.get_option_lines("Usage: prog\n\n").should eq([] of Array(String))
+  describe ".get_sections" do
+    it "returns single usage: section correctly" do
+      Util::StringUtil.get_sections(
+        "Usage: prog\n\n"
+      ).should eq([["Usage: prog"]] of Array(String))
     end
 
-    it "finds the 'options:' line in simple 2-part docstring" do
+    it "returns 2 sections correctly" do
       docstring = "Usage: prog [options]\nOptions: -b  All."
-      Util::StringUtil.get_option_lines(docstring).should eq(
-        [["Options: -b  All."]]
+      Util::StringUtil.get_sections(docstring).should eq(
+        [["Usage: prog [options]"],
+         ["Options: -b  All."]]
       )
     end
 
-    it "finds the 'options:' line case-insensitively" do
-      ["OPTIONS:", "options:", "oPtIoNs:"].map do |docstring|
-        docstring += " -a  All."
-        Util::StringUtil.get_option_lines(docstring).should eq([[docstring]])
-      end
-    end
-
-    it "finds multiple lines in multi-line 'options:' section" do
-      docstring = "Options: -a  All.\n"\
-                  "         -v  Verbose."
-      Util::StringUtil.get_option_lines(docstring).should eq(
-        [["Options: -a  All.",
-          "         -v  Verbose."]]
-      )
-    end
-
-    it "skips section between multiple 'options:' lines" do
+    it "returns 3 sections correctly" do
       docstring = "Options: -a   All.\n"\
                   "         -v   Verbose.\n"\
                   "\n"\
@@ -112,27 +99,13 @@ describe Util::StringUtil do
                   "         lol nobody cares about usage\n"\
                   "Options: -b   Boy, oh boy.\n"\
                   "         -vv  Very verbose.\n"
-      Util::StringUtil.get_option_lines(docstring).should eq(
+      Util::StringUtil.get_sections(docstring).should eq(
         [["Options: -a   All.",
           "         -v   Verbose."],
+          ["Usage:",
+           "         lol nobody cares about usage"],
          ["Options: -b   Boy, oh boy.",
           "         -vv  Very verbose."]]
-      )
-    end
-  end
-
-  describe ".get_usage_lines" do
-    it "extracts section between multiple 'options:' lines" do
-      docstring = "Options: -a   All.\n"\
-                  "         -v   Verbose.\n"\
-                  "\n"\
-                  "Usage:\n"\
-                  "         lol nobody cares about usage\n"\
-                  "Options: -b   Boy, oh boy.\n"\
-                  "         -vv  Very verbose.\n"
-      Util::StringUtil.get_usage_lines(docstring).should eq(
-        [["Usage:",
-          "         lol nobody cares about usage"]]
       )
     end
   end

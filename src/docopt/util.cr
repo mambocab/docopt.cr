@@ -21,21 +21,11 @@ module Util
 
   # Utilities for manipulating strings
   module StringUtil
-    private def self.get_section_lines(s, section_start_regex)
+    def self.get_sections(s)
       split = s.split('\n').reject { |x| x == "" }
       ArrayUtil.take_chunks_starting_with_selected(split) do |line|
         STARTS_WITH_SPACE_OR_TAB_REGEX.match(line) == nil
-      end.select do |section_chunk|
-        section_start_regex.match(section_chunk.first)
       end
-    end
-
-    def self.get_option_lines(s)
-      get_section_lines(s, CASE_INSENSITIVE_STARTS_WITH_OPTIONS_COLON_REGEX)
-    end
-
-    def self.get_usage_lines(s)
-      get_section_lines(s, CASE_INSENSITIVE_STARTS_WITH_USAGE_COLON_REGEX)
     end
   end
 
