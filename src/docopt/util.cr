@@ -4,7 +4,7 @@ module Util
   # Utilities for processing data structures representing options and
   # arguments
   module OptionUtil
-    def self.options_and_arg_to_results(options : Array(Types::Argument | Types::Option),
+    def self.options_and_arg_to_results(options : Array(Types::InputWord),
                                         argv : Array(String))
       Hash.zip(
         options.map { |o| o.name },

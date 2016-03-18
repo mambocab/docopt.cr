@@ -47,7 +47,7 @@ describe Util::OptionUtil do
   describe ".options_and_arg_to_results" do
     it "returns an empty result given empty options" do
       Util::OptionUtil.options_and_arg_to_results(
-        [] of Types::Argument | Types::Option,
+        [] of Types::InputWord,
         [] of String
       ).should eq({} of String => Bool | String)
     end

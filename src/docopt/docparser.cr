@@ -2,7 +2,7 @@ require "../docopt/types.cr"
 require "./util.cr"
 
 module DocParser
-  def self.parse(doc : String) : Array(Types::Argument | Types::Option)
+  def self.parse(doc : String) : Array(Types::InputWord)
     if doc == ""
       raise Errors::InvalidDocstringException.new("Cannot use an empty docstring")
     end
