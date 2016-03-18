@@ -1,17 +1,20 @@
+require "../docopt/types.cr"
 require "./util.cr"
 
 module DocParser
-  def self.parse(doc)
+  def self.parse(doc : String) : Array(Types::Argument | Types::Option)
     if doc == ""
       raise Errors::InvalidDocstringException.new("Cannot use an empty docstring")
     end
 
     usage_lines = Util::StringUtil.get_usage_lines(doc).flatten
     usage_names = DocParser::Util.parse_usage_lines usage_lines
+    usage_args = usage_names.map { |name| Types::Argument.new name, nil }
 
     option_lines = Util::StringUtil.get_option_lines(doc).flatten
     option_names = DocParser::Util.parse_option_lines option_lines
-    option_names + usage_names
+    option_options = option_names.map { |name| Types::Option.new name, nil }
+    usage_args + option_options
   end
 
   module Errors

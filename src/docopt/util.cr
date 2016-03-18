@@ -1,15 +1,21 @@
+require "../docopt/types.cr"
+
 module Util
   # Utilities for processing data structures representing options and
   # arguments
   module OptionUtil
-    def self.options_and_arg_to_results(options, argv)
-      Hash.zip options, options.map do |name|
-        if name.starts_with? '-'
-          argv.includes? name
-        else
-          argv[0]
+    def self.options_and_arg_to_results(options : Array(Types::Argument | Types::Option),
+                                        argv : Array(String))
+      Hash.zip(
+        options.map { |o| o.name },
+        options.map do |o|
+          if o.name.starts_with? '-'
+            argv.includes? o.name
+          else
+            argv[0]
+          end
         end
-      end
+      )
     end
   end
 

@@ -46,7 +46,17 @@ end
 describe Util::OptionUtil do
   describe ".options_and_arg_to_results" do
     it "returns an empty result given empty options" do
-      Util::OptionUtil.options_and_arg_to_results([] of String, [] of String).should eq({} of String => Bool)
+      Util::OptionUtil.options_and_arg_to_results(
+        [] of Types::Argument | Types::Option,
+        [] of String
+      ).should eq({} of String => Bool | String)
+    end
+
+    it "returns a map to false for an option that isn't in argv" do
+      Util::OptionUtil.options_and_arg_to_results(
+        [Types::Argument.new "-a", nil],
+        [] of String
+      )
     end
   end
 end

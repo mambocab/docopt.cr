@@ -10,7 +10,10 @@ module Docopt
       argv = ARGV
     end
 
-    Util::OptionUtil.options_and_arg_to_results DocParser.parse(doc), argv
+    Util::OptionUtil.options_and_arg_to_results(
+      DocParser.parse(doc),
+      argv
+    )
   end
 end
 
