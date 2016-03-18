@@ -58,6 +58,20 @@ describe Util::OptionUtil do
         [] of String
       )
     end
+
+    it "returns a map to true for an option that is in argv" do
+      Util::OptionUtil.options_and_arg_to_results(
+        [Types::Argument.new "-a", nil],
+        ["-a"]
+      )
+    end
+
+    it "will correctly detect 2 options in argv" do
+      Util::OptionUtil.options_and_arg_to_results(
+        [Types::Argument.new("-a", nil), Types::Argument.new("-b", nil)],
+        ["-a", "-b"]
+      )
+    end
   end
 end
 
