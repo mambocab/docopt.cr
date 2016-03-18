@@ -1,16 +1,16 @@
 require "./util.cr"
 
-module Parser
+module DocParser
   def self.parse(doc)
     if doc == ""
       raise Errors::InvalidDocstringException.new("Cannot use an empty docstring")
     end
 
     usage_lines = Util::StringUtil.get_usage_lines(doc).flatten
-    usage_names = Parser::Util.parse_usage_lines usage_lines
+    usage_names = DocParser::Util.parse_usage_lines usage_lines
 
     option_lines = Util::StringUtil.get_option_lines(doc).flatten
-    option_names = Parser::Util.parse_option_lines option_lines
+    option_names = DocParser::Util.parse_option_lines option_lines
     option_names + usage_names
   end
 
@@ -28,7 +28,7 @@ module Parser
 
     def self.parse_option_lines(lines)
       #  remove "option:" prefix and get the rest
-      lines.map { |line| Parser::Util.tokenize_option_line(line.split(':', 2).last) }
+      lines.map { |line| DocParser::Util.tokenize_option_line(line.split(':', 2).last) }
     end
 
     def self.parse_usage_lines(lines)
