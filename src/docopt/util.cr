@@ -13,24 +13,6 @@ module Util
     end
   end
 
-  # Utilities for extracting data structures from strings
-  module ParseUtil
-    def self.tokenize_option_line(line)
-      stripped = line.strip
-      stripped == "" ? "" : stripped.split("  ").first
-    end
-
-    def self.parse_option_lines(lines)
-      #  remove "option:" prefix and get the rest
-      lines.map { |line| Util::ParseUtil.tokenize_option_line(line.split(':', 2).last) }
-    end
-
-    def self.parse_usage_lines(lines)
-      #  remove "usage:" prefix and program name and get the rest
-      lines.map { |line| line.strip.split(':', 2).last.split }.flatten[1..-1].reject { |token| token == "[options]" }
-    end
-  end
-
   # Utilities for manipulating strings
   module StringUtil
     private def self.get_section_lines(s, section_start_regex)
