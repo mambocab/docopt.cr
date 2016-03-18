@@ -50,6 +50,29 @@ describe DocParser do
         DocParser::Util.parse_usage_lines(["usage: prog <args>"]).should eq(["<args>"])
       end
     end
+
+    describe ".string_to_input_word" do
+      it "returns an Argument for <-wrapped strings" do
+        DocParser::Util.string_to_input_word("<args>").should eq(
+          Types::Argument.new "<args>", nil
+        )
+      end
+
+      it "returns an Option for strings starting with dack" do
+        DocParser::Util.string_to_input_word("-a").should eq(
+          Types::Option.new "-a", nil
+        )
+      end
+
+      it "rejects arguments starting with < but not ending with >" do
+        input_string = "<arg"
+        expect_raises(DocParser::Errors::InvalidDocstringException, "#{input_string} not a valid input word") do
+          DocParser::Util.string_to_input_word(input_string).should eq(
+            Types::Option.new input_string, nil
+          )
+        end
+      end
+    end
   end
 end
 

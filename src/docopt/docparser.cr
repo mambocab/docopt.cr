@@ -21,15 +21,7 @@ module DocParser
       end
     end.flatten
 
-    extracted.map do |word|
-      if word.starts_with? '<'
-        Types::Argument.new word, nil
-      elsif word.starts_with? '-'
-        Types::Option.new word, nil
-      else
-        raise Errors::InvalidDocstringException.new("Invalid input word #{word}")
-      end
-    end
+    extracted.map { |word| Util.string_to_input_word(word) }
   end
 
   module Errors
@@ -52,6 +44,16 @@ module DocParser
     def self.parse_usage_lines(lines)
       #  remove "usage:" prefix and program name and get the rest
       lines.map { |line| line.strip.split(':', 2).last.split }.flatten[1..-1].reject { |token| token == "[options]" }
+    end
+
+    def self.string_to_input_word(string)
+      if string.starts_with?('<') && string.ends_with?('>')
+        Types::Argument.new string, nil
+      elsif string.starts_with? '-'
+        Types::Option.new string, nil
+      else
+        raise Errors::InvalidDocstringException.new("#{string} not a valid input word")
+      end
     end
   end
 end

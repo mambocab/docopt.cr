@@ -13,5 +13,14 @@ module Types
   end
 
   alias InputWord = Option | Argument
+
+  struct InputSectionStruct
+    property value
+    def initialize(@value : (String))
+    end
+  end
+
+  struct OptionSection < InputSectionStruct end
+  struct UsageSection < InputSectionStruct end
 end
 
