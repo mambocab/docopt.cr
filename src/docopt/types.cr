@@ -1,4 +1,7 @@
 module Types
+
+  ########## InputWord types ##########
+
   struct InputWordStruct
     property name
     property value
@@ -6,13 +9,12 @@ module Types
     end
   end
 
-  struct Option < InputWordStruct
-  end
-
-  struct Argument < InputWordStruct
-  end
+  struct Option < InputWordStruct end
+  struct Argument < InputWordStruct end
 
   alias InputWord = Option | Argument
+
+  ########## InputSection types ##########
 
   struct InputSectionStruct
     property value
