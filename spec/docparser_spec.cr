@@ -30,24 +30,24 @@ describe DocParser do
       end
     end
 
-    describe ".parse_option_lines" do
+    describe ".lex_option_lines" do
       it "returns an empty hash on an empty array" do
-        DocParser::Util.parse_option_lines([] of String).should eq([] of String)
+        DocParser::Util.lex_option_lines([] of String).should eq([] of String)
       end
 
       it "gets rid of leading 'options:' strings" do
-        DocParser::Util.parse_option_lines(["options:  --foo"]).should eq(["--foo"])
+        DocParser::Util.lex_option_lines(["options:  --foo"]).should eq(["--foo"])
       end
 
       it "works when comments include ':'" do
-        DocParser::Util.parse_option_lines(
+        DocParser::Util.lex_option_lines(
           ["options:  --foo  Wizard: needs foo badly."]).should eq(["--foo"])
       end
     end
 
-    describe ".get_args_from_usage_lines" do
+    describe ".lex_usage_lines" do
       it "gets a single argument" do
-        DocParser::Util.parse_usage_lines(["usage: prog <args>"]).should eq(["<args>"])
+        DocParser::Util.lex_usage_lines(["usage: prog <args>"]).should eq(["<args>"])
       end
     end
 

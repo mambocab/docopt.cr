@@ -11,9 +11,9 @@ module DocParser
     extracted = sections.map do |section|
       first_line = section.first.downcase
       if first_line.starts_with? "usage:"
-        DocParser::Util.parse_usage_lines section
+        DocParser::Util.lex_usage_lines section
       elsif first_line.starts_with? "options:"
-        DocParser::Util.parse_option_lines section
+        DocParser::Util.lex_option_lines section
       else
         raise Errors::InvalidDocstringException.new(
           "Section must start with 'usage:' or 'options:', "\
@@ -36,12 +36,12 @@ module DocParser
       stripped == "" ? "" : stripped.split("  ").first
     end
 
-    def self.parse_option_lines(lines)
+    def self.lex_option_lines(lines)
       #  remove "option:" prefix and get the rest
       lines.map { |line| DocParser::Util.tokenize_option_line(line.split(':', 2).last) }
     end
 
-    def self.parse_usage_lines(lines)
+    def self.lex_usage_lines(lines)
       #  remove "usage:" prefix and program name and get the rest
       lines.map { |line| line.strip.split(':', 2).last.split }.flatten[1..-1].reject { |token| token == "[options]" }
     end
